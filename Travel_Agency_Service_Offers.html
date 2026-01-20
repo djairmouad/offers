@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Agency Website - Service Offers</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            color: white;
+        }
+        
+        .header span {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            font-size: 1.15rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .offer-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        
+        .offer-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 35px 60px -15px rgba(0,0,0,0.3);
+        }
+        
+        .offer-card.recommended {
+            border: 3px solid #10b981;
+        }
+        
+        .offer-card.recommended::before {
+            content: '⭐ RECOMMENDED';
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 8px 50px;
+            font-size: 12px;
+            font-weight: 700;
+            transform: rotate(45deg);
+            letter-spacing: 1px;
+        }
+        
+        .offer-header {
+            padding: 35px 30px 25px;
+            text-align: center;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        
+        .offer-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        
+        .offer-1 .offer-badge { background: #dbeafe; color: #1d4ed8; }
+        .offer-2 .offer-badge { background: #d1fae5; color: #059669; }
+        .offer-3 .offer-badge { background: #fef3c7; color: #d97706; }
+        
+        .offer-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #111827;
+            margin-bottom: 10px;
+        }
+        
+        .offer-subtitle {
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+        
+        .offer-price {
+            padding: 25px 30px;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            text-align: center;
+        }
+        
+        .price-amount {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #111827;
+        }
+        
+        .price-currency {
+            font-size: 1.2rem;
+            vertical-align: top;
+            margin-left: 5px;
+            font-weight: 600;
+        }
+        
+        .price-period {
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+        
+        .offer-features {
+            padding: 30px;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 18px;
+        }
+        
+        .feature:last-child {
+            margin-bottom: 0;
+        }
+        
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            margin-top: 2px;
+        }
+        
+        .feature-icon svg {
+            width: 14px;
+            height: 14px;
+            color: white;
+        }
+        
+        .feature-text strong {
+            display: block;
+            color: #111827;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        
+        .feature-text span {
+            color: #6b7280;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .offer-footer {
+            padding: 20px 30px 30px;
+            text-align: center;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .tech-tag {
+            background: #f3f4f6;
+            color: #4b5563;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .delivery-time {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        .delivery-time strong {
+            color: #1d4ed8;
+        }
+        
+        /* Comparison Table */
+        .comparison-section {
+            background: white;
+            border-radius: 24px;
+            padding: 50px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            margin-bottom: 40px;
+        }
+        
+        .comparison-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 800;
+            color: #111827;
+            margin-bottom: 40px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 18px 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .comparison-table th:first-child {
+            text-align: left;
+            border-radius: 12px 0 0 0;
+        }
+        
+        .comparison-table th:last-child {
+            border-radius: 0 12px 0 0;
+        }
+        
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f3f4f6;
+            text-align: center;
+        }
+        
+        .comparison-table td:first-child {
+            text-align: left;
+            font-weight: 500;
+            color: #374151;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding-top: 25px;
+        }
+        
+        .comparison-table tr:last-child td:not(:first-child) {
+            color: #1d4ed8;
+        }
+        
+        .check { color: #10b981; font-weight: bold; }
+        .cross { color: #ef4444; }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f9fafb;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: white;
+            border-radius: 24px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        }
+        
+        .cta-section h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #111827;
+            margin-bottom: 15px;
+        }
+        
+        .cta-section p {
+            color: #6b7280;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            font-size: 1.1rem;
+        }
+        
+        .contact-box {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border-radius: 16px;
+            padding: 30px;
+            display: inline-block;
+        }
+        
+        .contact-box h3 {
+            color: #1d4ed8;
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+        
+        .contact-info {
+            color: #4b5563;
+        }
+        
+        .validity {
+            margin-top: 30px;
+            color: #9ca3af;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .offers-grid { grid-template-columns: 1fr; }
+            .comparison-section { padding: 30px 15px; overflow-x: auto; }
+            .comparison-table { min-width: 600px; }
+        }
+
+        @media print {
+            body { background: white; padding: 20px; }
+            .offer-card { box-shadow: 0 0 0 1px #e5e7eb; break-inside: avoid; }
+            .offer-card:hover { transform: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <span>SERVICE PROPOSAL</span>
+            <h1>Travel Agency Website</h1>
+            <p>Three tailored packages designed to help your travel agency establish a professional online presence and streamline booking operations.</p>
+        </header>
+
+        <div class="offers-grid">
+            <!-- OFFER 1 -->
+            <div class="offer-card offer-1">
+                <div class="offer-header">
+                    <div class="offer-badge">ESSENTIAL</div>
+                    <h3 class="offer-title">Starter Package</h3>
+                    <p class="offer-subtitle">Perfect for small agencies looking to establish an online presence</p>
+                </div>
+                <div class="offer-price">
+                    <div class="price-amount">30,000<span class="price-currency">DZD</span></div>
+                    <div class="price-period">one-time payment</div>
+                </div>
+                <div class="offer-features">
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Landing Page</strong>
+                            <span>Modern, responsive design showcasing your agency, featured trips, and contact info</span>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Basic Admin Panel</strong>
+                            <span>Simple dashboard to create and manage trips with their offers, pricing, and availability</span>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Checkout Page</strong>
+                            <span>Clean booking form where clients select trips and submit their reservations</span>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Gmail Integration</strong>
+                            <span>All bookings sent directly to your Gmail with complete client details</span>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Basic SEO</strong>
+                            <span>Fundamental search engine optimization to help customers find you</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="offer-footer">
+                    <div class="delivery-time">Delivery: <strong>2 weeks</strong></div>
+                </div>
+            </div>
+
+            <!-- OFFER 2 -->
+            <div class="offer-card offer-2 recommended">
+                <div class="offer-header">
+                    <div class="offer-badge">PROFESSIONAL</div>
+                    <h3 class="offer-title">Growth Package</h3>
+                    <p class="offer-subtitle">Ideal for growing agencies needing full control and insights</p>
+                </div>
+                <div class="offer-price">
+                    <div class="price-amount">50,000<span class="price-currency">DZD</span></div>
+                    <div class="price-period">one-time payment</div>
+                </div>
+                <div class="offer-features">
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Everything in Starter</strong>
+                            <span>Landing page, admin panel, checkout, and Gmail integration</span>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Order Management System</strong>
+                            <span>View, filter, and manage all client bookings directly in admin panel</span>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Advanced Dashboard</strong>
+                            <span>Analytics showing bookings, revenue trends, popular trips, and performance</span>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Enhanced Checkout</strong>
+                            <span>Multi-step checkout with validation and booking confirmation emails</span>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Client Database</strong>
+                            <span>Store client history, contacts, and booking preferences</span>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Multi-language Support</strong>
+                            <span>Website in French, English, Arabic, and Spanish</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="offer-footer">
+                    <div class="delivery-time">Delivery: <strong>3 weeks</strong></div>
+                </div>
+            </div>
+
+
+            <!-- OFFER 3 -->
+            <div class="offer-card offer-3">
+                <div class="offer-header">
+                    <div class="offer-badge">ENTERPRISE</div>
+                    <h3 class="offer-title">Complete Solution</h3>
+                    <p class="offer-subtitle">Full business solution for established agencies seeking scale</p>
+                </div>
+                <div class="offer-price">
+                    <div class="price-amount">60,000<span class="price-currency">DZD</span></div>
+                    <div class="price-period">one-time payment</div>
+                </div>
+                <div class="offer-features">
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Everything in Professional</strong>
+                            <span>All previous features plus advanced capabilities</span>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Online Payment Integration</strong>
+                            <span>Accept credit cards, PayPal with secure transactions and receipts</span>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Multi-language Support</strong>
+                            <span>Website in French, English, Arabic, and Spanish</span>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Customer Portal</strong>
+                            <span>Clients login to view bookings, invoices, and manage reservations</span>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>Email Automation + Promotions</strong>
+                            <span>Automated campaigns, discount codes, and seasonal offers</span>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="feature-text">
+                            <strong>6 Months Priority Support</strong>
+                            <span>Dedicated technical support, updates, and maintenance</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="offer-footer">
+                    <div class="delivery-time">Delivery: <strong>4 weeks</strong></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="comparison-section">
+            <h2>📊 Package Comparison</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Starter</th>
+                        <th>Professional</th>
+                        <th>Enterprise</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Landing Page</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Admin Panel</td>
+                        <td>Basic</td>
+                        <td>Advanced</td>
+                        <td>Full</td>
+                    </tr>
+                    <tr>
+                        <td>Checkout Page</td>
+                        <td class="check">✓</td>
+                        <td>Enhanced</td>
+                        <td>Premium</td>
+                    </tr>
+                    <tr>
+                        <td>Gmail Integration</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Order Management</td>
+                        <td class="cross">✗</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Analytics Dashboard</td>
+                        <td class="cross">✗</td>
+                        <td class="check">✓</td>
+                        <td>Advanced</td>
+                    </tr>
+                    <tr>
+                        <td>Client Database</td>
+                        <td class="cross">✗</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Multi-language</td>
+                        <td class="cross">✗</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Payment Integration</td>
+                        <td class="cross">✗</td>
+                        <td class="cross">✗</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Customer Portal</td>
+                        <td class="cross">✗</td>
+                        <td class="cross">✗</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Email Automation</td>
+                        <td class="cross">✗</td>
+                        <td class="cross">✗</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Support Period</td>
+                        <td>30 days</td>
+                        <td>60 days</td>
+                        <td>6 months</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Price</strong></td>
+                        <td><strong>30,000 DZD</strong></td>
+                        <td><strong>50,000 DZD</strong></td>
+                        <td><strong>60,000 DZD</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+</html>
